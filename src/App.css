@@ -34,19 +34,40 @@
 }
 
 .top {
-  position: absolute;
-  inset: 0 0 auto;
   z-index: 10;
   display: grid;
-  grid-template-columns: auto 1fr auto auto;
+  grid-template-columns: 1fr auto auto;
   align-items: center;
   gap: 0.85rem 1.25rem;
   padding: 1.25rem clamp(1.25rem, 4vw, 3rem);
   animation: rise 0.9s var(--ease-out) both;
 }
 
+.page-home .top-over-hero {
+  position: absolute;
+  inset: 0 0 auto;
+}
+
+.page-inner .top {
+  position: sticky;
+  top: 0;
+  background: color-mix(in srgb, var(--ink) 88%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--mist) 10%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  color: inherit;
+  text-decoration: none;
+  min-width: 0;
+}
+
 .brand-mark {
   position: relative;
+  flex: 0 0 2.4rem;
   width: 2.4rem;
   height: 2.4rem;
 }
@@ -101,7 +122,8 @@
 }
 
 .nav a:hover,
-.nav a:focus-visible {
+.nav a:focus-visible,
+.nav a.active {
   color: var(--flare);
 }
 
@@ -110,24 +132,14 @@
   place-items: center;
   width: 2.4rem;
   height: 2.4rem;
-  border: 1px solid var(--line);
+  border: 1px solid color-mix(in srgb, var(--flare) 45%, transparent);
   border-radius: 999px;
-  color: var(--mist);
-  text-decoration: none;
+  color: var(--flare);
+  background: color-mix(in srgb, var(--flare) 10%, transparent);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.06em;
-  transition:
-    border-color 0.25s var(--ease-out),
-    color 0.25s var(--ease-out),
-    background 0.25s var(--ease-out);
-}
-
-.lang:hover,
-.lang:focus-visible {
-  border-color: var(--flare);
-  color: var(--flare);
-  background: color-mix(in srgb, var(--flare) 10%, transparent);
+  user-select: none;
 }
 
 .menu-toggle {
@@ -182,12 +194,151 @@
 }
 
 @media (min-width: 860px) {
+  .top {
+    grid-template-columns: auto 1fr auto auto;
+  }
+
   .nav {
     display: flex;
   }
 
   .menu-toggle,
   .mobile-nav {
+    display: none;
+  }
+}
+
+/* ——— Inner pages ——— */
+.content {
+  padding:
+    clamp(2rem, 6vh, 3.5rem)
+    clamp(1.25rem, 4vw, 3rem)
+    clamp(3rem, 8vh, 5rem);
+  max-width: 46rem;
+}
+
+.content-head {
+  margin-bottom: 1.75rem;
+}
+
+.kicker {
+  margin: 0 0 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--flare);
+}
+
+.content-head h1 {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-brand);
+  font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.content-head .lede {
+  margin: 0;
+  color: color-mix(in srgb, var(--mist) 88%, white);
+  line-height: 1.55;
+  font-size: 1.08rem;
+}
+
+.prose {
+  display: grid;
+  gap: 1rem;
+}
+
+.prose p,
+.prose li {
+  margin: 0;
+  line-height: 1.65;
+  color: color-mix(in srgb, var(--mist) 90%, white);
+}
+
+.prose h2 {
+  margin: 1rem 0 0;
+  font-family: var(--font-brand);
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+}
+
+.prose ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.note {
+  color: color-mix(in srgb, var(--mist) 72%, transparent) !important;
+  font-size: 0.95rem;
+}
+
+.stub-table {
+  display: grid;
+  gap: 1px;
+  margin-top: 0.35rem;
+  border: 1px solid color-mix(in srgb, var(--mist) 14%, transparent);
+  border-radius: 0.45rem;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--mist) 14%, transparent);
+}
+
+.stub-row {
+  display: grid;
+  grid-template-columns: 0.9fr 1.4fr 1.1fr 1fr;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: color-mix(in srgb, var(--ink) 70%, var(--court));
+  font-size: 0.92rem;
+  color: color-mix(in srgb, var(--mist) 78%, transparent);
+}
+
+.stub-head {
+  background: color-mix(in srgb, var(--court) 55%, var(--ink));
+  color: var(--shuttle);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.club-stubs {
+  list-style: none;
+  padding: 0;
+  margin: 0.35rem 0 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.club-stubs li {
+  display: grid;
+  gap: 0.25rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--mist) 14%, transparent);
+  border-radius: 0.45rem;
+  background: color-mix(in srgb, var(--court) 22%, transparent);
+}
+
+.club-stubs strong {
+  font-family: var(--font-brand);
+  font-size: 1.05rem;
+  color: var(--shuttle);
+}
+
+.club-stubs span {
+  color: color-mix(in srgb, var(--mist) 75%, transparent);
+  font-size: 0.92rem;
+}
+
+@media (max-width: 700px) {
+  .stub-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stub-head {
     display: none;
   }
 }

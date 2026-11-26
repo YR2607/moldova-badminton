@@ -1,12 +1,22 @@
-# Federația de Badminton a Moldovei — site MVP
+# Федерация бадминтона Молдовы — MVP
 
-Landing MVP for the Moldova Badminton Federation website.
+Landing and core pages for the Moldova Badminton Federation website.
 
 ## Stack
 
-- Vite + React + TypeScript
-- Design tokens in CSS variables (see `src/index.css`)
-- Default UI language: **Romanian** (i18n hooks later)
+- Vite + React + TypeScript + React Router
+- Design tokens in CSS variables (`src/index.css`)
+- **Default UI language: Russian (ru)** — Romanian later via i18n
+
+## Pages
+
+| Path | Page |
+|---|---|
+| `/` | Главная (hero) |
+| `/about` | О федерации |
+| `/competitions` | Соревнования / календарь (stub) |
+| `/clubs` | Клубы (stub) |
+| `/contact` | Контакты (placeholders) |
 
 ## Develop
 
@@ -21,4 +31,4 @@ Open http://127.0.0.1:5173
 
 - No invented officials, phones, or events — placeholders only
 - Do not call Cursor `publish-app` unless asked
-- Audit / kickoff plan: project store `docs/federation-site-audit.md`
+- Audit / kickoff: project store `docs/federation-site-audit.md`
