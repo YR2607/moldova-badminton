@@ -28,11 +28,11 @@ export default function Home() {
         </div>
         <h1>
           Национальный бадминтон
-          <em> на нашем корте</em>
+          <em> Республики Молдова</em>
         </h1>
         <p className="lede">
-          Соревнования, клубы и развитие спорта в Республике Молдова — член BWF /
-          Badminton Europe.
+          Официальная информация о соревнованиях, клубах и развитии спорта — член BWF
+          / Badminton Europe.
         </p>
         <div className="cta-row">
           <Link className="cta primary" to="/contact">

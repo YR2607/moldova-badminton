@@ -1,23 +1,24 @@
 :root {
-  /* Palette derived from official MBF logo: blue racket, yellow stroke, red MBF */
-  --ink: #070b1c;
-  --court: #1430b8;
-  --court-deep: #0a1458;
-  --mist: #d7dff5;
-  --shuttle: #f7f8fc;
-  --flare: #f5e800;
-  --flare-hot: #fff34a;
-  --accent: #e83838;
-  --accent-hot: #f04848;
-  --line: color-mix(in srgb, var(--mist) 28%, transparent);
-  --glow: color-mix(in srgb, var(--flare) 24%, transparent);
-  --glow-red: color-mix(in srgb, var(--accent) 28%, transparent);
+  /* Logo triad, restrained for a federation site */
+  --ink: #0b1220;
+  --surface: #111a2c;
+  --court: #1a3a9e;
+  --court-soft: #243f8f;
+  --mist: #c9d2e8;
+  --shuttle: #f4f6fa;
+  --flare: #d4c43a;
+  --flare-soft: color-mix(in srgb, var(--flare) 16%, transparent);
+  --accent: #c62828;
+  --accent-hot: #d63a3a;
+  --line: color-mix(in srgb, var(--mist) 18%, transparent);
+  --line-strong: color-mix(in srgb, var(--mist) 28%, transparent);
 
-  /* Unbounded + Onest: expressive, with Cyrillic (Syne/Figtree are Latin-only) */
   --font-brand: 'Unbounded', sans-serif;
   --font-body: 'Onest', sans-serif;
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --radius: 0.4rem;
+  --space-page: clamp(1.5rem, 4vw, 3rem);
   color-scheme: dark;
 }
 
