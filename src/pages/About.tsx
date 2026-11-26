@@ -1,46 +1,51 @@
+import { Link, NavLink } from 'react-router-dom'
+import Notice from '../components/Notice'
+import PageHeader from '../components/PageHeader'
+import PageShell from '../components/PageShell'
+import Subnav from '../components/Subnav'
+import { useI18n } from '../i18n/useI18n'
+
 export default function About() {
+  const { t } = useI18n()
+
   return (
-    <article className="content">
-      <header className="content-head">
-        <p className="kicker">О федерации</p>
-        <h1>Кто мы</h1>
-        <p className="lede">
-          Федерация бадминтона Молдовы — национальная организация, развивающая
-          бадминтон в Республике Молдова.
-        </p>
-      </header>
+    <PageShell>
+      <PageHeader kicker={t.about.kicker} title={t.about.title} lede={t.about.lede} />
 
-      <p className="demo-banner" role="note">
-        Текст страницы — рабочий макет. Официальные формулировки и руководство
-        уточнит федерация.
-      </p>
+      <Subnav label={t.documents.subnavLabel}>
+        <NavLink to="/about" end>
+          {t.nav.about}
+        </NavLink>
+        <NavLink to="/about/documents">{t.nav.documents}</NavLink>
+      </Subnav>
 
-      <div className="prose">
-        <p>
-          Мы объединяем клубы и спортсменов, проводим национальные соревнования и
-          представляем Молдову в международных структурах. Федерация является членом
-          Badminton World Federation (BWF) и Badminton Europe (BEC).
-        </p>
-        <p>
-          По публичным справочникам BEC федерация основана в 1992 году и входит в BEC с
-          1995 года. Цель сайта — дать игрокам, родителям и клубам понятную точку входа:
-          календарь, контакты и «где играть».
-        </p>
+      <div className="page-body">
+        <Notice>
+          {t.common.waitingNote} {t.about.notice}
+        </Notice>
 
-        <h2>Чем занимаемся</h2>
-        <ul>
-          <li>Календарь национальных турниров и возрастных категорий</li>
-          <li>Поддержка клубов и развитие массового бадминтона</li>
-          <li>Связь с BWF / Badminton Europe и партнёрами</li>
-          <li>Информация для спортсменов, тренеров и судей</li>
-        </ul>
+        <div className="prose">
+          <p>
+            {t.about.p1} {t.common.membership}
+          </p>
+          <p>{t.common.foundedNote}</p>
 
-        <h2>Руководство</h2>
-        <p className="placeholder">
-          Имена и должности официальных лиц появятся после подтверждения федерацией.
-          На демо-сайте состав руководства не публикуем.
-        </p>
+          <h2>{t.about.activitiesTitle}</h2>
+          <ul>
+            {t.about.activities.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+
+          <h2>{t.about.leadershipTitle}</h2>
+          <p className="placeholder">{t.about.leadershipBody}</p>
+
+          <h2>{t.about.docsTitle}</h2>
+          <p>
+            {t.about.docsBodyBefore} <Link to="/about/documents">{t.about.docsLink}</Link>
+          </p>
+        </div>
       </div>
-    </article>
+    </PageShell>
   )
 }

@@ -1,34 +1,35 @@
-import { DEMO_LABEL, demoClubs } from '../data/demo'
+import EmptyState from '../components/EmptyState'
+import Notice from '../components/Notice'
+import PageHeader from '../components/PageHeader'
+import PageShell from '../components/PageShell'
+import { clubs } from '../data/content'
+import { useI18n } from '../i18n/useI18n'
 
 export default function Clubs() {
+  const { t } = useI18n()
+
   return (
-    <article className="content">
-      <header className="content-head">
-        <p className="kicker">Клубы</p>
-        <h1>Где играть</h1>
-        <p className="lede">
-          Несколько демо-клубов, чтобы показать формат списка. Актуальный перечень
-          предоставит федерация.
-        </p>
-      </header>
+    <PageShell>
+      <PageHeader kicker={t.clubs.kicker} title={t.clubs.title} lede={t.clubs.lede} />
 
-      <p className="demo-banner" role="note">
-        {DEMO_LABEL}: названия, залы и контакты клубов — вымышленные.
-      </p>
+      <div className="page-body page-body-wide">
+        <Notice>{t.common.waitingNote}</Notice>
 
-      <div className="prose">
-        <ul className="club-stubs">
-          {demoClubs.map((club) => (
-            <li key={club.name}>
-              <strong>{club.name}</strong>
-              <span>Город: {club.city}</span>
-              <span>Зал: {club.hall}</span>
-              <span>Контакт: {club.contact}</span>
-              <span className="demo-tag">мок</span>
-            </li>
-          ))}
-        </ul>
+        {clubs.length === 0 ? (
+          <EmptyState title={t.clubs.emptyTitle}>{t.clubs.emptyBody}</EmptyState>
+        ) : (
+          <ul className="club-list">
+            {clubs.map((club) => (
+              <li key={club.id}>
+                <strong>{club.name}</strong>
+                <span>{club.city}</span>
+                <span>{club.hall}</span>
+                <span>{club.contact}</span>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
-    </article>
+    </PageShell>
   )
 }

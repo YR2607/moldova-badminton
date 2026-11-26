@@ -1,57 +1,55 @@
-import { DEMO_LABEL, demoContact } from '../data/demo'
+import Notice from '../components/Notice'
+import PageHeader from '../components/PageHeader'
+import PageShell from '../components/PageShell'
+import { contactMeta } from '../data/content'
+import { useI18n } from '../i18n/useI18n'
 
 export default function Contact() {
+  const { t } = useI18n()
+  const c = t.contact
+
   return (
-    <article className="content">
-      <header className="content-head">
-        <p className="kicker">Контакты</p>
-        <h1>Связаться с нами</h1>
-        <p className="lede">
-          Ниже — демо-реквизиты для макета. Замените на официальные данные федерации.
-        </p>
-      </header>
+    <PageShell>
+      <PageHeader kicker={c.kicker} title={c.title} lede={c.lede} />
 
-      <p className="demo-banner" role="note">
-        {DEMO_LABEL}: email, телефон и адрес не являются официальными.
-      </p>
+      <div className="page-body">
+        <Notice>{t.common.waitingNote}</Notice>
 
-      <div className="prose">
         <dl className="contact-list">
           <div>
-            <dt>Email</dt>
+            <dt>{c.email}</dt>
             <dd>
-              <a href={`mailto:${demoContact.email}`}>{demoContact.email}</a>
-              <span className="demo-tag">мок</span>
+              {contactMeta.emailIsPlaceholder ? (
+                <span className="ph">{contactMeta.email}</span>
+              ) : (
+                <a href={`mailto:${contactMeta.email}`}>{contactMeta.email}</a>
+              )}
             </dd>
           </div>
           <div>
-            <dt>Телефон</dt>
+            <dt>{c.phone}</dt>
             <dd>
-              <a href={`tel:${demoContact.phone.replace(/\s/g, '')}`}>{demoContact.phone}</a>
-              <span className="demo-tag">мок</span>
+              <span className={contactMeta.phoneIsPlaceholder ? 'ph' : undefined}>
+                {c.phoneValue}
+              </span>
             </dd>
           </div>
           <div>
-            <dt>Адрес</dt>
+            <dt>{c.address}</dt>
             <dd>
-              {demoContact.address}
-              <span className="demo-tag">мок</span>
+              <span className={contactMeta.addressIsPlaceholder ? 'ph' : undefined}>
+                {c.addressValue}
+              </span>
             </dd>
           </div>
           <div>
-            <dt>Соцсети</dt>
-            <dd>
-              {demoContact.social}
-              <span className="demo-tag">мок</span>
-            </dd>
+            <dt>{c.social}</dt>
+            <dd className="muted">{c.socialValue}</dd>
           </div>
         </dl>
 
-        <p className="note">
-          Форма обратной связи появится после согласования рабочего ящика. Пока
-          используйте демо-email только как пример интерфейса.
-        </p>
+        <p className="note">{c.formNote}</p>
       </div>
-    </article>
+    </PageShell>
   )
 }

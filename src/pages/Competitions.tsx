@@ -1,46 +1,73 @@
-import { DEMO_LABEL, demoTournaments } from '../data/demo'
+import { Link, NavLink } from 'react-router-dom'
+import DataTable from '../components/DataTable'
+import EmptyState from '../components/EmptyState'
+import Notice from '../components/Notice'
+import PageHeader from '../components/PageHeader'
+import PageShell from '../components/PageShell'
+import Subnav from '../components/Subnav'
+import { tournaments, type Tournament } from '../data/content'
+import { useI18n } from '../i18n/useI18n'
 
 export default function Competitions() {
+  const { t } = useI18n()
+  const c = t.competitions
+
+  const columns = [
+    {
+      key: 'name',
+      header: c.colName,
+      render: (row: Tournament) => <strong>{row.name}</strong>,
+    },
+    {
+      key: 'dates',
+      header: c.colDates,
+      render: (row: Tournament) => row.dates,
+    },
+    {
+      key: 'place',
+      header: c.colPlace,
+      render: (row: Tournament) => row.place,
+    },
+    {
+      key: 'rules',
+      header: c.colRules,
+      render: (row: Tournament) =>
+        row.rulesHref ? <Link to={row.rulesHref}>{c.colRules}</Link> : '—',
+    },
+    {
+      key: 'results',
+      header: c.colResults,
+      render: (row: Tournament) =>
+        row.resultsHref ? <Link to={row.resultsHref}>{c.colResults}</Link> : '—',
+    },
+  ]
+
   return (
-    <article className="content content-wide">
-      <header className="content-head">
-        <p className="kicker">Соревнования</p>
-        <h1>Календарь и результаты</h1>
-        <p className="lede">
-          Пример сезона для демонстрации структуры. Реальные даты заменит федерация.
-        </p>
-      </header>
+    <PageShell>
+      <PageHeader kicker={c.kicker} title={c.calendarTitle} lede={c.calendarLede} />
 
-      <p className="demo-banner" role="note">
-        {DEMO_LABEL}: турниры ниже вымышлены для макета сайта.
-      </p>
+      <Subnav label={c.subnavLabel}>
+        <NavLink to="/competitions" end>
+          {t.nav.calendar}
+        </NavLink>
+        <NavLink to="/competitions/rules">{t.nav.rules}</NavLink>
+        <NavLink to="/competitions/results">{t.nav.results}</NavLink>
+      </Subnav>
 
-      <div className="prose">
-        <h2>Календарь 2026</h2>
+      <div className="page-body page-body-wide">
+        <Notice>{c.calendarNotice}</Notice>
 
-        <div className="stub-table" role="table" aria-label="Демо-календарь турниров">
-          <div className="stub-row stub-head" role="row">
-            <span role="columnheader">Дата</span>
-            <span role="columnheader">Турнир</span>
-            <span role="columnheader">Место</span>
-            <span role="columnheader">Статус</span>
-          </div>
-          {demoTournaments.map((t) => (
-            <div className="stub-row" role="row" key={t.name}>
-              <span role="cell">{t.dates}</span>
-              <span role="cell">{t.name}</span>
-              <span role="cell">{t.place}</span>
-              <span role="cell">{t.status}</span>
-            </div>
-          ))}
-        </div>
-
-        <h2>Регламенты и результаты</h2>
-        <p className="placeholder">
-          PDF регламентов и протоколы результатов появятся вместе с официальным
-          календарём. Сейчас — только демо-таблица выше.
-        </p>
+        {tournaments.length === 0 ? (
+          <EmptyState title={c.emptyTitle}>{c.emptyBody}</EmptyState>
+        ) : (
+          <DataTable
+            columns={columns}
+            rows={tournaments}
+            caption={c.tableCaption}
+            getRowKey={(row) => row.id}
+          />
+        )}
       </div>
-    </article>
+    </PageShell>
   )
 }

@@ -1,28 +1,43 @@
 import { useId, useState } from 'react'
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
+import { Link, NavLink, Outlet } from 'react-router-dom'
+import { useI18n } from '../i18n/useI18n'
+import LangSwitch from './LangSwitch'
 
-const NAV = [
-  { label: 'О федерации', to: '/about' },
-  { label: 'Соревнования', to: '/competitions' },
-  { label: 'Клубы', to: '/clubs' },
-  { label: 'Контакты', to: '/contact' },
-]
+const NAV_KEYS = [
+  { key: 'about', to: '/about' },
+  { key: 'competitions', to: '/competitions' },
+  { key: 'news', to: '/news' },
+  { key: 'clubs', to: '/clubs' },
+  { key: 'team', to: '/team' },
+  { key: 'contact', to: '/contact' },
+] as const
+
+const FOOT_KEYS = [
+  { key: 'about', to: '/about' },
+  { key: 'documents', to: '/about/documents' },
+  { key: 'calendar', to: '/competitions' },
+  { key: 'news', to: '/news' },
+  { key: 'clubs', to: '/clubs' },
+  { key: 'team', to: '/team' },
+  { key: 'contact', to: '/contact' },
+] as const
+
+const COPYRIGHT_YEAR = new Date().getFullYear()
 
 export default function Layout() {
   const [menuOpen, setMenuOpen] = useState(false)
   const menuId = useId()
-  const { pathname } = useLocation()
-  const isHome = pathname === '/'
+  const { t } = useI18n()
 
   const closeMenu = () => setMenuOpen(false)
 
   return (
-    <div className={`page${isHome ? ' page-home' : ' page-inner'}`}>
+    <div className="page">
       <a className="skip" href="#main">
-        Перейти к содержимому
+        {t.a11y.skip}
       </a>
 
-      <header className={`top${isHome ? ' top-over-hero' : ''}`}>
+      <header className="top">
         <Link to="/" className="brand-link" onClick={closeMenu}>
           <img
             className="brand-logo"
@@ -32,22 +47,24 @@ export default function Layout() {
             height={43}
           />
           <span className="brand-name">
-            Федерация бадминтона
-            <span>Молдовы</span>
+            {t.brand.line1}
+            <span>{t.brand.line2}</span>
           </span>
         </Link>
 
-        <nav className="nav" aria-label="Основная навигация">
-          {NAV.map((item) => (
-            <NavLink key={item.to} to={item.to} className={({ isActive }) => (isActive ? 'active' : undefined)}>
-              {item.label}
+        <nav className="nav" aria-label={t.a11y.mainNav}>
+          {NAV_KEYS.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              className={({ isActive }) => (isActive ? 'active' : undefined)}
+            >
+              {t.nav[item.key]}
             </NavLink>
           ))}
         </nav>
 
-        <span className="lang" title="Язык интерфейса — русский (румынский позже)">
-          RU
-        </span>
+        <LangSwitch />
 
         <button
           type="button"
@@ -56,20 +73,20 @@ export default function Layout() {
           aria-controls={menuId}
           onClick={() => setMenuOpen((open) => !open)}
         >
-          <span className="sr-only">{menuOpen ? 'Закрыть меню' : 'Открыть меню'}</span>
+          <span className="sr-only">{menuOpen ? t.a11y.closeMenu : t.a11y.openMenu}</span>
           <span aria-hidden="true" />
           <span aria-hidden="true" />
         </button>
       </header>
 
       {menuOpen ? (
-        <nav id={menuId} className="mobile-nav" aria-label="Мобильное меню">
+        <nav id={menuId} className="mobile-nav" aria-label={t.a11y.mobileNav}>
           <NavLink to="/" onClick={closeMenu} end>
-            Главная
+            {t.nav.home}
           </NavLink>
-          {NAV.map((item) => (
+          {NAV_KEYS.map((item) => (
             <NavLink key={item.to} to={item.to} onClick={closeMenu}>
-              {item.label}
+              {t.nav[item.key]}
             </NavLink>
           ))}
         </nav>
@@ -80,8 +97,37 @@ export default function Layout() {
       </main>
 
       <footer className="foot">
-        <p>© {new Date().getFullYear()} Федерация бадминтона Молдовы · MBF</p>
-        <p className="muted">MVP · демо-контент на внутренних страницах · ждём данные федерации</p>
+        <div className="foot-grid">
+          <div>
+            <h2>{t.footer.federation}</h2>
+            <p className="muted foot-blurb">{t.footer.blurb}</p>
+          </div>
+          <div>
+            <h2>{t.footer.sections}</h2>
+            <ul className="foot-links">
+              {FOOT_KEYS.map((item) => (
+                <li key={item.to}>
+                  <Link to={item.to}>{t.nav[item.key]}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h2>{t.footer.partners}</h2>
+            <div className="partners" aria-label={t.a11y.partners}>
+              <span className="partner-slot">BWF</span>
+              <span className="partner-slot">BEC</span>
+              <span className="partner-slot">{t.footer.noc}</span>
+            </div>
+            <p className="muted foot-note">{t.footer.partnersNote}</p>
+          </div>
+        </div>
+        <div className="foot-bottom">
+          <p>
+            © {COPYRIGHT_YEAR} {t.brand.full} · {t.brand.abbr}
+          </p>
+          <p>{t.footer.dataNote}</p>
+        </div>
       </footer>
     </div>
   )
