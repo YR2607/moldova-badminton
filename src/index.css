@@ -13,8 +13,9 @@
   --glow: color-mix(in srgb, var(--flare) 24%, transparent);
   --glow-red: color-mix(in srgb, var(--accent) 28%, transparent);
 
-  --font-brand: 'Syne', sans-serif;
-  --font-body: 'Figtree', sans-serif;
+  /* Unbounded + Onest: expressive, with Cyrillic (Syne/Figtree are Latin-only) */
+  --font-brand: 'Unbounded', sans-serif;
+  --font-body: 'Onest', sans-serif;
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   color-scheme: dark;
