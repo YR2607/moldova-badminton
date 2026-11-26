@@ -260,6 +260,58 @@
   font-size: 0.95rem;
 }
 
+.demo-banner {
+  margin: 0 0 1.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px dashed color-mix(in srgb, var(--flare) 55%, transparent);
+  border-radius: 0.45rem;
+  background: color-mix(in srgb, var(--flare) 10%, transparent);
+  color: color-mix(in srgb, var(--mist) 92%, white);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.demo-tag {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.25rem;
+  background: color-mix(in srgb, var(--flare) 18%, transparent);
+  color: var(--flare);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.contact-list a {
+  color: var(--shuttle);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--flare) 45%, transparent);
+  text-underline-offset: 0.18em;
+}
+
+.contact-list a:hover,
+.contact-list a:focus-visible {
+  color: var(--flare);
+}
+
+.content-wide {
+  max-width: 52rem;
+}
+
+.club-stubs li {
+  position: relative;
+}
+
+.club-stubs .demo-tag {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  margin: 0;
+}
+
 .stub-table {
   display: grid;
   gap: 1px;

@@ -1,3 +1,5 @@
+import { DEMO_LABEL, demoClubs } from '../data/demo'
+
 export default function Clubs() {
   return (
     <article className="content">
@@ -5,36 +7,26 @@ export default function Clubs() {
         <p className="kicker">Клубы</p>
         <h1>Где играть</h1>
         <p className="lede">
-          Список аффилированных клубов с городом, залом и контактом — после получения
-          актуального перечня.
+          Несколько демо-клубов, чтобы показать формат списка. Актуальный перечень
+          предоставит федерация.
         </p>
       </header>
 
-      <div className="prose">
-        <p className="placeholder">
-          Список клубов — <em>заглушка</em>. Пришлите обновлённый перечень для
-          публикации.
-        </p>
+      <p className="demo-banner" role="note">
+        {DEMO_LABEL}: названия, залы и контакты клубов — вымышленные.
+      </p>
 
+      <div className="prose">
         <ul className="club-stubs">
-          <li>
-            <strong>[Название клуба]</strong>
-            <span>Город: [город]</span>
-            <span>Зал: [адрес зала]</span>
-            <span>Контакт: [телефон / email]</span>
-          </li>
-          <li>
-            <strong>[Название клуба]</strong>
-            <span>Город: [город]</span>
-            <span>Зал: [адрес зала]</span>
-            <span>Контакт: [телефон / email]</span>
-          </li>
-          <li>
-            <strong>[Название клуба]</strong>
-            <span>Город: [город]</span>
-            <span>Зал: [адрес зала]</span>
-            <span>Контакт: [телефон / email]</span>
-          </li>
+          {demoClubs.map((club) => (
+            <li key={club.name}>
+              <strong>{club.name}</strong>
+              <span>Город: {club.city}</span>
+              <span>Зал: {club.hall}</span>
+              <span>Контакт: {club.contact}</span>
+              <span className="demo-tag">мок</span>
+            </li>
+          ))}
         </ul>
       </div>
     </article>

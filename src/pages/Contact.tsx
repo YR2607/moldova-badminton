@@ -1,3 +1,5 @@
+import { DEMO_LABEL, demoContact } from '../data/demo'
+
 export default function Contact() {
   return (
     <article className="content">
@@ -5,42 +7,49 @@ export default function Contact() {
         <p className="kicker">Контакты</p>
         <h1>Связаться с нами</h1>
         <p className="lede">
-          Реквизиты появятся после подтверждения федерацией. Ниже — явные
-          плейсхолдеры, без выдуманных телефонов и адресов.
+          Ниже — демо-реквизиты для макета. Замените на официальные данные федерации.
         </p>
       </header>
+
+      <p className="demo-banner" role="note">
+        {DEMO_LABEL}: email, телефон и адрес не являются официальными.
+      </p>
 
       <div className="prose">
         <dl className="contact-list">
           <div>
             <dt>Email</dt>
             <dd>
-              <span className="ph">[email — подтвердить]</span>
+              <a href={`mailto:${demoContact.email}`}>{demoContact.email}</a>
+              <span className="demo-tag">мок</span>
             </dd>
           </div>
           <div>
             <dt>Телефон</dt>
             <dd>
-              <span className="ph">[телефон — подтвердить]</span>
+              <a href={`tel:${demoContact.phone.replace(/\s/g, '')}`}>{demoContact.phone}</a>
+              <span className="demo-tag">мок</span>
             </dd>
           </div>
           <div>
             <dt>Адрес</dt>
             <dd>
-              <span className="ph">[адрес в Кишинёве — подтвердить]</span>
+              {demoContact.address}
+              <span className="demo-tag">мок</span>
             </dd>
           </div>
           <div>
             <dt>Соцсети</dt>
             <dd>
-              <span className="ph">[ссылки — подтвердить]</span>
+              {demoContact.social}
+              <span className="demo-tag">мок</span>
             </dd>
           </div>
         </dl>
 
         <p className="note">
-          Форма обратной связи будет добавлена, когда будет согласован рабочий email
-          для писем.
+          Форма обратной связи появится после согласования рабочего ящика. Пока
+          используйте демо-email только как пример интерфейса.
         </p>
       </div>
     </article>

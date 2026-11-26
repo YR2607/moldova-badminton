@@ -81,7 +81,7 @@ export default function Layout() {
 
       <footer className="foot">
         <p>© {new Date().getFullYear()} Федерация бадминтона Молдовы · MBF</p>
-        <p className="muted">MVP · сайт в разработке · без неподтверждённых данных</p>
+        <p className="muted">MVP · демо-контент на внутренних страницах · ждём данные федерации</p>
       </footer>
     </div>
   )
