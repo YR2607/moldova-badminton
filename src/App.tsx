@@ -1,3 +1,4 @@
+import { useId, useState } from 'react'
 import './App.css'
 
 const NAV = [
@@ -8,6 +9,11 @@ const NAV = [
 ]
 
 export default function App() {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const menuId = useId()
+
+  const closeMenu = () => setMenuOpen(false)
+
   return (
     <div className="page">
       <a className="skip" href="#main">
@@ -30,10 +36,31 @@ export default function App() {
             </a>
           ))}
         </nav>
-        <a className="lang" href="#i18n" title="Limba — RO (RU în curând)">
+        <a className="lang" href="#despre" title="Limba — RO (RU în curând)">
           RO
         </a>
+        <button
+          type="button"
+          className="menu-toggle"
+          aria-expanded={menuOpen}
+          aria-controls={menuId}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span className="sr-only">{menuOpen ? 'Închide meniul' : 'Deschide meniul'}</span>
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+        </button>
       </header>
+
+      {menuOpen ? (
+        <nav id={menuId} className="mobile-nav" aria-label="Mobil">
+          {NAV.map((item) => (
+            <a key={item.href} href={item.href} onClick={closeMenu}>
+              {item.label}
+            </a>
+          ))}
+        </nav>
+      ) : null}
 
       <main id="main">
         <section className="hero" aria-labelledby="hero-brand">
@@ -78,10 +105,6 @@ export default function App() {
             Federația de Badminton a Moldovei reprezintă sportul pe plan național și
             internațional. Site-ul este în construcție — conținutul oficial (conducere,
             documente, calendar) va fi publicat după confirmarea federației.
-          </p>
-          <p className="note">
-            Denumire RU (pentru i18n): Федерация бадминтона Молдовы. Limba UI implicită:
-            română; rusă urmează.
           </p>
         </section>
 
