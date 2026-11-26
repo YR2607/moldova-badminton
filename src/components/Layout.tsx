@@ -24,10 +24,13 @@ export default function Layout() {
 
       <header className={`top${isHome ? ' top-over-hero' : ''}`}>
         <Link to="/" className="brand-link" onClick={closeMenu}>
-          <span className="brand-mark" aria-hidden="true">
-            <span className="mark-orb" />
-            <span className="mark-feather" />
-          </span>
+          <img
+            className="brand-logo"
+            src="/federation-mark.png"
+            alt=""
+            width={72}
+            height={43}
+          />
           <span className="brand-name">
             Федерация бадминтона
             <span>Молдовы</span>
@@ -77,7 +80,7 @@ export default function Layout() {
       </main>
 
       <footer className="foot">
-        <p>© {new Date().getFullYear()} Федерация бадминтона Молдовы</p>
+        <p>© {new Date().getFullYear()} Федерация бадминтона Молдовы · MBF</p>
         <p className="muted">MVP · сайт в разработке · без неподтверждённых данных</p>
       </footer>
     </div>

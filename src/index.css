@@ -1,14 +1,17 @@
 :root {
-  --ink: #071a1f;
-  --court: #0e3d3a;
-  --court-deep: #062825;
-  --mist: #d8e6e4;
-  --shuttle: #f4f7f6;
-  --flare: #e8b84a;
-  --flare-hot: #f0c85c;
-  --clay: #8b3a3a;
+  /* Palette derived from official MBF logo: blue racket, yellow stroke, red MBF */
+  --ink: #070b1c;
+  --court: #1430b8;
+  --court-deep: #0a1458;
+  --mist: #d7dff5;
+  --shuttle: #f7f8fc;
+  --flare: #f5e800;
+  --flare-hot: #fff34a;
+  --accent: #e83838;
+  --accent-hot: #f04848;
   --line: color-mix(in srgb, var(--mist) 28%, transparent);
-  --glow: color-mix(in srgb, var(--flare) 22%, transparent);
+  --glow: color-mix(in srgb, var(--flare) 24%, transparent);
+  --glow-red: color-mix(in srgb, var(--accent) 28%, transparent);
 
   --font-brand: 'Syne', sans-serif;
   --font-body: 'Figtree', sans-serif;

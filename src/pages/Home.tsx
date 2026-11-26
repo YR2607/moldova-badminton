@@ -16,9 +16,16 @@ export default function Home() {
       </div>
 
       <div className="hero-copy">
-        <p className="eyebrow" id="hero-brand">
-          Федерация бадминтона Молдовы
-        </p>
+        <div className="hero-brand" id="hero-brand">
+          <img
+            className="hero-logo"
+            src="/federation-logo.png"
+            alt="MBF — Moldavian Badminton Federation"
+            width={220}
+            height={285}
+          />
+          <p className="eyebrow">Федерация бадминтона Молдовы</p>
+        </div>
         <h1>
           Национальный бадминтон
           <em> на нашем корте</em>
