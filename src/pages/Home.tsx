@@ -1,11 +1,16 @@
 import { Link } from 'react-router-dom'
 import EmptyState from '../components/EmptyState'
 import Section from '../components/Section'
-import { tournaments } from '../data/content'
+import { useSite } from '../content/useSite'
+import { formatPostDate, publishedNews, tournamentDates, upcomingTournaments } from '../data/site'
 import { useI18n } from '../i18n/useI18n'
 
 export default function Home() {
-  const { t } = useI18n()
+  const { locale, t } = useI18n()
+  const { site } = useSite()
+  const upcoming = upcomingTournaments(site.tournaments).slice(0, 3)
+  const news = publishedNews(site.news).slice(0, 3)
+  const facebook = site.contact.social.facebook
 
   return (
     <>
@@ -15,8 +20,8 @@ export default function Home() {
             className="hero-logo"
             src="/federation-logo.png"
             alt={`${t.brand.abbr} — ${t.brand.full}`}
-            width={220}
-            height={285}
+            width={256}
+            height={256}
           />
           <div className="hero-copy">
             <p className="eyebrow" id="hero-brand">
@@ -50,9 +55,21 @@ export default function Home() {
           </Link>
         }
       >
-        {tournaments.length === 0 ? (
+        {upcoming.length === 0 ? (
           <EmptyState title={t.home.calendarEmptyTitle}>{t.home.calendarEmptyBody}</EmptyState>
-        ) : null}
+        ) : (
+          <ul className="club-list">
+            {upcoming.map((row) => (
+              <li key={row.id}>
+                <strong>
+                  <Link to={`/competitions/${row.id}`}>{row.name}</Link>
+                </strong>
+                <span>{tournamentDates(row, locale)}</span>
+                {row.place ? <span>{row.place}</span> : null}
+              </li>
+            ))}
+          </ul>
+        )}
       </Section>
 
       <Section
@@ -64,23 +81,38 @@ export default function Home() {
           </Link>
         }
       >
-        <ul className="news-teasers">
-          {t.news.items.map((item) => (
-            <li key={item.slug}>
-              <Link to={`/news/${item.slug}`}>
-                <div className="media-ph" aria-hidden="true">
-                  {t.common.photoLater}
-                </div>
-                {item.draftStructure ? (
-                  <span className="status-chip">{t.common.draftChip}</span>
-                ) : null}
-                <time dateTime={item.date}>{item.dateLabel}</time>
-                <h3>{item.title}</h3>
-                <p>{item.excerpt}</p>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {news.length === 0 ? (
+          <EmptyState title={t.news.emptyTitle}>
+            {t.news.emptyBody}
+            {facebook ? (
+              <>
+                {' '}
+                <a href={facebook} target="_blank" rel="noreferrer">
+                  {t.news.openFacebook}
+                </a>
+              </>
+            ) : null}
+          </EmptyState>
+        ) : (
+          <ul className="news-teasers">
+            {news.map((item) => (
+              <li key={item.id}>
+                <Link to={`/news/${item.slug || item.id}`}>
+                  {item.image ? (
+                    <img className="news-thumb" src={item.image} alt="" />
+                  ) : (
+                    <div className="media-ph" aria-hidden="true">
+                      {t.common.photoLater}
+                    </div>
+                  )}
+                  <time dateTime={item.date}>{formatPostDate(item.date, locale)}</time>
+                  <h3>{item.title}</h3>
+                  <p>{item.excerpt}</p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </Section>
 
       <Section title={t.home.memberTitle} description={t.home.memberDesc}>

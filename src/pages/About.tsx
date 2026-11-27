@@ -1,48 +1,64 @@
-import { Link, NavLink } from 'react-router-dom'
-import Notice from '../components/Notice'
+import { Link } from 'react-router-dom'
 import PageHeader from '../components/PageHeader'
 import PageShell from '../components/PageShell'
-import Subnav from '../components/Subnav'
+import { useSite } from '../content/useSite'
+import { newsParagraphs } from '../data/site'
 import { useI18n } from '../i18n/useI18n'
 
 export default function About() {
-  const { t } = useI18n()
+  const { locale, t } = useI18n()
+  const { site } = useSite()
+  const about = site.about
+  const intro = newsParagraphs(about.intro[locale] || about.intro.ro)
 
   return (
     <PageShell>
-      <PageHeader kicker={t.about.kicker} title={t.about.title} lede={t.about.lede} />
-
-      <Subnav label={t.documents.subnavLabel}>
-        <NavLink to="/about" end>
-          {t.nav.about}
-        </NavLink>
-        <NavLink to="/about/documents">{t.nav.documents}</NavLink>
-      </Subnav>
+      <PageHeader kicker={t.about.kicker} title={about.title[locale]} lede={about.lede[locale]} />
 
       <div className="page-body">
-        <Notice>
-          {t.common.waitingNote} {t.about.notice}
-        </Notice>
-
         <div className="prose">
-          <p>
-            {t.about.p1} {t.common.membership}
-          </p>
-          <p>{t.common.foundedNote}</p>
+          {intro.map((paragraph) => (
+            <p key={paragraph.slice(0, 48)}>{paragraph}</p>
+          ))}
 
-          <h2>{t.about.activitiesTitle}</h2>
-          <ul>
-            {t.about.activities.map((item) => (
-              <li key={item}>{item}</li>
+          {about.activities.length > 0 ? (
+            <>
+              <h2>{about.activitiesTitle[locale]}</h2>
+              <ul>
+                {about.activities.map((item) => (
+                  <li key={item.id}>{item.text[locale] || item.text.ro}</li>
+                ))}
+              </ul>
+            </>
+          ) : null}
+
+          <h2>{about.leadershipTitle[locale]}</h2>
+        </div>
+        {about.leadership.length === 0 ? (
+          <p className="placeholder">{t.about.leadershipBody}</p>
+        ) : (
+          <ul className="team-grid">
+            {about.leadership.map((person) => (
+              <li key={person.id}>
+                {person.photo ? (
+                  <img src={person.photo} alt="" />
+                ) : (
+                  <div className="media-ph" aria-hidden="true">
+                    {t.common.photoLater}
+                  </div>
+                )}
+                <strong>{person.name}</strong>
+                {person.role[locale] || person.role.ro ? (
+                  <span>{person.role[locale] || person.role.ro}</span>
+                ) : null}
+              </li>
             ))}
           </ul>
-
-          <h2>{t.about.leadershipTitle}</h2>
-          <p className="placeholder">{t.about.leadershipBody}</p>
-
+        )}
+        <div className="prose">
           <h2>{t.about.docsTitle}</h2>
           <p>
-            {t.about.docsBodyBefore} <Link to="/about/documents">{t.about.docsLink}</Link>
+            {t.about.docsBodyBefore} <Link to="/documents">{t.about.docsLink}</Link>
           </p>
         </div>
       </div>

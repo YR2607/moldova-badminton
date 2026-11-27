@@ -1,46 +1,17 @@
 import { Link, NavLink } from 'react-router-dom'
-import DataTable from '../components/DataTable'
 import EmptyState from '../components/EmptyState'
-import Notice from '../components/Notice'
 import PageHeader from '../components/PageHeader'
 import PageShell from '../components/PageShell'
 import Subnav from '../components/Subnav'
-import { tournaments, type Tournament } from '../data/content'
+import { useSite } from '../content/useSite'
+import { tournamentDates, upcomingTournaments } from '../data/site'
 import { useI18n } from '../i18n/useI18n'
 
 export default function Competitions() {
-  const { t } = useI18n()
+  const { locale, t } = useI18n()
+  const { site } = useSite()
   const c = t.competitions
-
-  const columns = [
-    {
-      key: 'name',
-      header: c.colName,
-      render: (row: Tournament) => <strong>{row.name}</strong>,
-    },
-    {
-      key: 'dates',
-      header: c.colDates,
-      render: (row: Tournament) => row.dates,
-    },
-    {
-      key: 'place',
-      header: c.colPlace,
-      render: (row: Tournament) => row.place,
-    },
-    {
-      key: 'rules',
-      header: c.colRules,
-      render: (row: Tournament) =>
-        row.rulesHref ? <Link to={row.rulesHref}>{c.colRules}</Link> : '—',
-    },
-    {
-      key: 'results',
-      header: c.colResults,
-      render: (row: Tournament) =>
-        row.resultsHref ? <Link to={row.resultsHref}>{c.colResults}</Link> : '—',
-    },
-  ]
+  const rows = upcomingTournaments(site.tournaments)
 
   return (
     <PageShell>
@@ -55,17 +26,40 @@ export default function Competitions() {
       </Subnav>
 
       <div className="page-body page-body-wide">
-        <Notice>{c.calendarNotice}</Notice>
-
-        {tournaments.length === 0 ? (
+        {rows.length === 0 ? (
           <EmptyState title={c.emptyTitle}>{c.emptyBody}</EmptyState>
         ) : (
-          <DataTable
-            columns={columns}
-            rows={tournaments}
-            caption={c.tableCaption}
-            getRowKey={(row) => row.id}
-          />
+          <ul className="event-list">
+            {rows.map((row) => (
+              <li key={row.id}>
+                <Link to={`/competitions/${row.id}`}>
+                  {row.image ? (
+                    <img className="event-thumb" src={row.image} alt="" />
+                  ) : (
+                    <div className="media-ph" aria-hidden="true">
+                      {t.common.photoLater}
+                    </div>
+                  )}
+                  <div>
+                    <time dateTime={row.dateStart}>{tournamentDates(row, locale)}</time>
+                    <h2>{row.name}</h2>
+                    {row.place ? <p>{row.place}</p> : null}
+                    {row.description ? <p>{row.description}</p> : null}
+                  </div>
+                </Link>
+                {row.registrationHref ? (
+                  <a
+                    className="cta subtle"
+                    href={row.registrationHref}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {c.register}
+                  </a>
+                ) : null}
+              </li>
+            ))}
+          </ul>
         )}
       </div>
     </PageShell>

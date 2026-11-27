@@ -1,0 +1,37 @@
+{
+  "contact": {
+    "email": "",
+    "phones": ["+37369509892"],
+    "people": [
+      {
+        "id": "dumitru",
+        "name": "Dumitru Dmitriev",
+        "phone": "+37369509892"
+      }
+    ],
+    "social": {
+      "facebook": "https://www.facebook.com/mbf.md",
+      "instagram": "",
+      "tiktok": "",
+      "youtube": ""
+    }
+  },
+  "documents": [
+    {
+      "id": "lp110-2025",
+      "href": "https://www.legis.md/cautare/getResults?doc_id=149120&lang=ro",
+      "title": {
+        "ro": "Legea nr. 110/2025 cu privire la educația fizică și sport",
+        "ru": "Закон № 110/2025 о физической культуре и спорте"
+      },
+      "citation": {
+        "ro": "LP110/2025 · 22.05.2025 · legis.md",
+        "ru": "LP110/2025 · 22.05.2025 · legis.md"
+      }
+    }
+  ],
+  "news": [],
+  "clubs": [],
+  "tournaments": [],
+  "team": []
+}

@@ -1,10 +1,13 @@
 import { useId, useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
+import { useSite } from '../content/useSite'
+import { formatPhone, primaryPerson, primaryPhone, socialEntries } from '../data/site'
 import { useI18n } from '../i18n/useI18n'
 import LangSwitch from './LangSwitch'
 
 const NAV_KEYS = [
   { key: 'about', to: '/about' },
+  { key: 'documents', to: '/documents' },
   { key: 'competitions', to: '/competitions' },
   { key: 'news', to: '/news' },
   { key: 'clubs', to: '/clubs' },
@@ -14,7 +17,7 @@ const NAV_KEYS = [
 
 const FOOT_KEYS = [
   { key: 'about', to: '/about' },
-  { key: 'documents', to: '/about/documents' },
+  { key: 'documents', to: '/documents' },
   { key: 'calendar', to: '/competitions' },
   { key: 'news', to: '/news' },
   { key: 'clubs', to: '/clubs' },
@@ -28,6 +31,10 @@ export default function Layout() {
   const [menuOpen, setMenuOpen] = useState(false)
   const menuId = useId()
   const { t } = useI18n()
+  const { site } = useSite()
+  const person = primaryPerson(site.contact)
+  const phone = primaryPhone(site.contact)
+  const socials = socialEntries(site.contact.social)
 
   const closeMenu = () => setMenuOpen(false)
 
@@ -43,8 +50,8 @@ export default function Layout() {
             className="brand-logo"
             src="/federation-mark.png"
             alt=""
-            width={72}
-            height={43}
+            width={48}
+            height={48}
           />
           <span className="brand-name">
             {t.brand.line1}
@@ -100,7 +107,42 @@ export default function Layout() {
         <div className="foot-grid">
           <div>
             <h2>{t.footer.federation}</h2>
+            <img
+              className="foot-logo"
+              src="/federation-logo.png"
+              alt=""
+              width={160}
+              height={160}
+            />
             <p className="muted foot-blurb">{t.footer.blurb}</p>
+            <p className="muted foot-blurb">
+              {person?.name}
+              {site.contact.email ? (
+                <>
+                  <br />
+                  <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>
+                </>
+              ) : null}
+              {phone ? (
+                <>
+                  <br />
+                  <a href={`tel:${phone}`}>{formatPhone(phone)}</a>
+                </>
+              ) : null}
+              {socials.length > 0 ? (
+                <>
+                  <br />
+                  {socials.map((item, index) => (
+                    <span key={item.key}>
+                      {index > 0 ? ' · ' : null}
+                      <a href={item.href} target="_blank" rel="noreferrer">
+                        {item.label}
+                      </a>
+                    </span>
+                  ))}
+                </>
+              ) : null}
+            </p>
           </div>
           <div>
             <h2>{t.footer.sections}</h2>

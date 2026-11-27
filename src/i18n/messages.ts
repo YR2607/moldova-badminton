@@ -1,22 +1,5 @@
 import type { Locale } from './locale'
 
-export type NewsItem = {
-  slug: string
-  title: string
-  date: string
-  dateLabel: string
-  excerpt: string
-  body: string[]
-  draftStructure: boolean
-}
-
-export type DocumentCategory = {
-  id: string
-  title: string
-  description: string
-  status: string
-}
-
 export type MembershipStep = {
   n: string
   title: string
@@ -109,9 +92,7 @@ export type Messages = {
     kicker: string
     title: string
     lede: string
-    subnavLabel: string
-    notice: string
-    items: DocumentCategory[]
+    open: string
   }
   competitions: {
     kicker: string
@@ -131,9 +112,14 @@ export type Messages = {
     colPlace: string
     colRules: string
     colResults: string
+    register: string
+    contacts: string
+    back: string
     rulesNotice: string
     rulesEmptyTitle: string
     rulesEmptyBody: string
+    generalRules: string
+    tournamentRules: string
     resultsNotice: string
     resultsEmptyTitle: string
     resultsEmptyBody: string
@@ -144,7 +130,12 @@ export type Messages = {
     listLede: string
     notice: string
     back: string
-    items: NewsItem[]
+    source: string
+    emptyTitle: string
+    emptyBody: string
+    openFacebook: string
+    onFacebook: string
+    sourceLink: string
   }
   clubs: {
     kicker: string
@@ -160,33 +151,38 @@ export type Messages = {
     intro: string
     emptyTitle: string
     emptyBody: string
+    rank: string
+    coach: string
+    club: string
+    categories: {
+      u13: string
+      u15: string
+      u17: string
+      senior: string
+    }
   }
   contact: {
     kicker: string
     title: string
     lede: string
-    email: string
+    name: string
     phone: string
-    address: string
+    email: string
     social: string
-    phoneValue: string
-    addressValue: string
-    socialValue: string
-    formNote: string
   }
   membershipSteps: MembershipStep[]
 }
 
 const ro: Messages = {
   meta: {
-    title: 'Federația de Badminton din Republica Moldova',
+    title: 'Moldavian Badminton Federation',
     description:
-      'Federația de Badminton din Republica Moldova — site oficial. Competiții, cluburi, dezvoltarea sportului.',
+      'Moldavian Badminton Federation — site oficial. Competiții, cluburi, dezvoltarea sportului.',
   },
   brand: {
-    line1: 'Federația de Badminton',
-    line2: 'din Moldova',
-    full: 'Federația de Badminton din Republica Moldova',
+    line1: 'Moldavian Badminton',
+    line2: 'Federation',
+    full: 'Moldavian Badminton Federation',
     abbr: 'MBF',
   },
   a11y: {
@@ -206,7 +202,7 @@ const ro: Messages = {
     clubs: 'Cluburi',
     team: 'Lot național',
     contact: 'Contact',
-    documents: 'Documente',
+    documents: 'Documente oficiale',
     calendar: 'Calendar',
     rules: 'Regulamente',
     results: 'Rezultate',
@@ -216,24 +212,24 @@ const ro: Messages = {
     sections: 'Secțiuni',
     partners: 'Parteneri',
     blurb:
-      'Federația de Badminton din Republica Moldova (MBF) — organizație națională, membră BWF și Badminton Europe.',
+      'Moldavian Badminton Federation (MBF) — organizație națională, membră BWF și Badminton Europe.',
     partnersNote: 'Logo-urile vor apărea după acord.',
     noc: 'COC',
     dataNote: 'Datele oficiale vor fi publicate de federație.',
   },
   common: {
     waitingNote:
-      'Datele oficiale (calendar, cluburi, contacte, conducere) vor apărea după publicarea de către federație.',
-    draftChip: 'Schiță structură',
-    photoLater: 'Foto ulterior',
+      'Datele oficiale (calendar, cluburi, conducere) vor apărea după publicarea de către federație.',
+    draftChip: 'Structură',
+    photoLater: 'Imagine',
     membership: 'Membră Badminton World Federation (BWF) și Badminton Europe (BEC).',
     foundedNote:
       'Conform anuarelor publice BEC, federația a fost fondată în 1992 și este membră BEC din 1995 — cifrele necesită confirmarea federației.',
   },
   home: {
-    headline: 'Badminton național',
-    headlineEm: ' pe terenul nostru',
-    lede: 'Competiții, cluburi și dezvoltarea sportului în Republica Moldova.',
+    headline: 'Competiții, cluburi',
+    headlineEm: ' și lot național',
+    lede: 'Informații oficiale pentru sportivi, cluburi și părinți din Republica Moldova.',
     ctaContact: 'Contactează federația',
     ctaCalendar: 'Calendar competiții',
     upcomingTitle: 'Competiții apropiate',
@@ -243,18 +239,17 @@ const ro: Messages = {
     calendarEmptyBody:
       'Turneele, regulamentele și rezultatele vor apărea aici. Secțiunea este pregătită pentru publicare.',
     newsTitle: 'Știri',
-    newsDesc: 'Anunțuri și reportaje. Acum — schițe ale structurii site-ului.',
+    newsDesc: 'Postări publice de pe facebook.com/mbf.md.',
     newsLink: 'Toate știrile',
     memberTitle: 'Cum devii membru',
-    memberDesc:
-      'Trei pași până la înregistrarea oficială. Detaliile procedurii le va preciza federația.',
-    stepLabel: 'Pasul',
-    clubsLink: 'Vezi cluburile →',
+    memberDesc: 'Trei pași până la înregistrarea oficială.',
+    stepLabel: 'Pas',
+    clubsLink: 'Vezi cluburile',
   },
   about: {
     kicker: 'Despre federație',
     title: 'Cine suntem',
-    lede: 'Federația de Badminton din Republica Moldova — organizația națională care dezvoltă badmintonul în țară.',
+    lede: 'Moldavian Badminton Federation — organizația națională care dezvoltă badmintonul în țară.',
     notice: 'Formulările acestei pagini sunt un draft de lucru.',
     p1: 'Reunim cluburi și sportivi, organizăm competiții naționale și reprezentăm Moldova în structurile internaționale.',
     activitiesTitle: 'Cu ce ne ocupăm',
@@ -268,42 +263,14 @@ const ro: Messages = {
     leadershipBody:
       'Numele și funcțiile oficialilor vor apărea după confirmarea federației. Nu publicăm conducerea fără acord scris.',
     docsTitle: 'Documente',
-    docsBodyBefore: 'Statutul, regulamentele și materialele antidoping — într-o secțiune separată.',
+    docsBodyBefore: 'Actele oficiale — în secțiunea Documente oficiale.',
     docsLink: 'Mergi la documente',
   },
   documents: {
-    kicker: 'Despre federație',
-    title: 'Documente',
-    lede: 'Materiale oficiale pentru cluburi, antrenori și sportivi. Fișierele vor apărea după publicarea de către federație.',
-    subnavLabel: 'Secțiunea despre federație',
-    notice:
-      'PDF-urile și DOC-urile nu sunt încărcate până când federația nu furnizează versiunile actuale. Mai jos — structura secțiunii.',
-    items: [
-      {
-        id: 'statute',
-        title: 'Statut',
-        description: 'Documentul constitutiv al federației.',
-        status: 'PDF după publicarea federației',
-      },
-      {
-        id: 'regulations',
-        title: 'Regulamente de competiții',
-        description: 'Reguli pentru organizarea turneelor naționale.',
-        status: 'PDF după publicarea federației',
-      },
-      {
-        id: 'antidoping',
-        title: 'Antidoping',
-        description: 'Reguli și referințe la standardele internaționale.',
-        status: 'PDF după publicarea federației',
-      },
-      {
-        id: 'forms',
-        title: 'Formulare tip',
-        description: 'Înscrieri, transferuri și documente aferente.',
-        status: 'PDF / DOC vor apărea ulterior',
-      },
-    ],
+    kicker: 'Federație',
+    title: 'Documente oficiale',
+    lede: 'Acte din registrul legis.md și alte documente publice ale federației.',
+    open: 'Deschide',
   },
   competitions: {
     kicker: 'Competiții',
@@ -326,10 +293,15 @@ const ro: Messages = {
     colPlace: 'Loc',
     colRules: 'Regulament',
     colResults: 'Rezultate',
+    register: 'Înregistrare',
+    contacts: 'Contact',
+    back: '← Calendar',
     rulesNotice: 'Fișierele vor apărea odată cu calendarul oficial al sezonului.',
     rulesEmptyTitle: 'Regulamentele nu sunt încă publicate',
     rulesEmptyBody:
       'Aici vor fi PDF-urile regulamentelor pe turneu și regulile generale de organizare.',
+    generalRules: 'Regulamente generale',
+    tournamentRules: 'Regulamente de turneu',
     resultsNotice: 'Rezultatele se publică doar după confirmarea oficială.',
     resultsEmptyTitle: 'Nu există încă rezultate',
     resultsEmptyBody:
@@ -338,54 +310,17 @@ const ro: Messages = {
   news: {
     kicker: 'Știri',
     listTitle: 'Flux',
-    listLede: 'Anunțuri, reportaje și comunicate oficiale ale federației.',
+    listLede: 'Postări publice de pe pagina Facebook a federației, în stilul site-ului.',
     notice:
-      'Materialele de mai jos sunt schițe ale structurii. Fapte despre turnee și sportivi nu sunt inventate.',
+      'Până la un canal nou, arhiva se completează din facebook.com/mbf.md. Importul automat nu este disponibil fără acces de administrator.',
     back: '← Toate știrile',
-    items: [
-      {
-        slug: 'zapusk-oficialnogo-sajta',
-        title: 'Pregătim site-ul oficial al federației',
-        date: '2026-11-26',
-        dateLabel: '26 noiembrie 2026',
-        excerpt:
-          'Structura secțiunilor: calendar, cluburi, documente și știri. Materialele vor fi actualizate pe măsură ce federația le furnizează.',
-        body: [
-          'Acest material este o schiță a structurii fluxului de știri. Arată cum vor arăta anunțurile și reportajele pe site.',
-          'Federația de Badminton din Republica Moldova adună calendarul oficial, lista cluburilor și datele de contact. Până la confirmare nu publicăm evenimente sau nume inventate.',
-          'Urmăriți secțiunile „Competiții”, „Cluburi” și „Contact” — vor fi completate primele.',
-        ],
-        draftStructure: true,
-      },
-      {
-        slug: 'kalendar-sezona',
-        title: 'Calendarul sezonului: secțiunea e gata de conținut',
-        date: '2026-11-26',
-        dateLabel: '26 noiembrie 2026',
-        excerpt:
-          'Pe pagina de competiții — un tabel cu coloane pentru regulament și rezultate. Datele turneelor vor apărea după aprobare.',
-        body: [
-          'Secțiunea „Competiții” urmează ciclul de viață al turneului: denumire, date, loc, regulament și rezultate.',
-          'Lista este încă goală — starea așteptată până la primirea calendarului oficial.',
-          'Calendarul internațional Badminton Europe poate fi adăugat ca link când federația confirmă prioritățile sezonului.',
-        ],
-        draftStructure: true,
-      },
-      {
-        slug: 'dokumenty-i-prozrachnost',
-        title: 'Documente și transparență',
-        date: '2026-11-26',
-        dateLabel: '26 noiembrie 2026',
-        excerpt:
-          'Statutul, regulamentele și materialele antidoping vor avea o secțiune dedicată cu statusul publicării PDF.',
-        body: [
-          'Secțiunea „Documente” este pregătită pentru statut, regulamente de competiții și reguli antidoping.',
-          'Fișierele PDF nu sunt încărcate până când federația nu furnizează versiunile actuale.',
-          'Scopul este un site util pentru cluburi, antrenori și părinți, fără confuzie birocratică.',
-        ],
-        draftStructure: true,
-      },
-    ],
+    source: 'Facebook',
+    emptyTitle: 'Arhiva este încă goală',
+    emptyBody:
+      'Deschideți pagina Facebook și trimiteți textul sau capturile postărilor. Le publicăm aici cu link către original.',
+    openFacebook: 'Deschide pagina Facebook',
+    onFacebook: 'Vezi pe Facebook',
+    sourceLink: 'Sursa',
   },
   clubs: {
     kicker: 'Cluburi',
@@ -404,20 +339,24 @@ const ro: Messages = {
     emptyTitle: 'Componența nu este publicată',
     emptyBody:
       'Nu indicăm încă numele sportivilor și antrenorilor. Secțiunea este rezervată grupelor de vârstă și criteriilor de selecție.',
+    rank: 'Clasificare',
+    coach: 'Antrenor',
+    club: 'Club',
+    categories: {
+      u13: 'U13',
+      u15: 'U15',
+      u17: 'U17',
+      senior: 'Senior',
+    },
   },
   contact: {
     kicker: 'Contact',
     title: 'Contactează federația',
-    lede: 'Email-ul, telefonul și adresa oficiale vor apărea după confirmare. Formularul de contact — când există backend.',
-    email: 'Email',
+    lede: 'Persoana de contact a federației.',
+    name: 'Nume',
     phone: 'Telefon',
-    address: 'Adresă',
-    social: 'Social',
-    phoneValue: 'telefon — se precizează',
-    addressValue: 'adresa în Chișinău — se precizează',
-    socialValue: 'Rețele sociale — linkurile vor apărea ulterior',
-    formNote:
-      'Formularul de contact va fi adăugat după ce există un canal de procesare a mesajelor.',
+    email: 'E-mail',
+    social: 'Rețele',
   },
   membershipSteps: [
     {
@@ -440,14 +379,14 @@ const ro: Messages = {
 
 const ru: Messages = {
   meta: {
-    title: 'Федерация бадминтона Молдовы',
+    title: 'Moldavian Badminton Federation',
     description:
-      'Федерация бадминтона Молдовы — официальный сайт. Соревнования, клубы, развитие спорта.',
+      'Moldavian Badminton Federation — официальный сайт. Соревнования, клубы, развитие спорта.',
   },
   brand: {
-    line1: 'Федерация бадминтона',
-    line2: 'Молдовы',
-    full: 'Федерация бадминтона Молдовы',
+    line1: 'Moldavian Badminton',
+    line2: 'Federation',
+    full: 'Moldavian Badminton Federation',
     abbr: 'MBF',
   },
   a11y: {
@@ -467,7 +406,7 @@ const ru: Messages = {
     clubs: 'Клубы',
     team: 'Сборная',
     contact: 'Контакты',
-    documents: 'Документы',
+    documents: 'Официальные документы',
     calendar: 'Календарь',
     rules: 'Регламенты',
     results: 'Результаты',
@@ -477,24 +416,24 @@ const ru: Messages = {
     sections: 'Разделы',
     partners: 'Партнёры',
     blurb:
-      'Федерация бадминтона Молдовы (MBF) — национальная организация, член BWF и Badminton Europe.',
+      'Moldavian Badminton Federation (MBF) — национальная организация, член BWF и Badminton Europe.',
     partnersNote: 'Логотипы появятся после согласования.',
     noc: 'НОК',
     dataNote: 'Официальные данные будут опубликованы федерацией.',
   },
   common: {
     waitingNote:
-      'Официальные данные (календарь, клубы, контакты, руководство) появятся после публикации федерацией.',
-    draftChip: 'Черновик структуры',
-    photoLater: 'Фото позже',
+      'Официальные данные (календарь, клубы, руководство) появятся после публикации федерацией.',
+    draftChip: 'Структура',
+    photoLater: 'Изображение',
     membership: 'Член Badminton World Federation (BWF) и Badminton Europe (BEC).',
     foundedNote:
       'По публичным справочникам BEC федерация основана в 1992 году и входит в BEC с 1995 года — цифры требуют подтверждения федерацией.',
   },
   home: {
-    headline: 'Национальный бадминтон',
-    headlineEm: ' на нашем корте',
-    lede: 'Соревнования, клубы и развитие спорта в Республике Молдова.',
+    headline: 'Соревнования, клубы',
+    headlineEm: ' и сборная',
+    lede: 'Официальная информация для спортсменов, клубов и родителей в Республике Молдова.',
     ctaContact: 'Связаться с федерацией',
     ctaCalendar: 'Календарь соревнований',
     upcomingTitle: 'Ближайшие соревнования',
@@ -504,17 +443,17 @@ const ru: Messages = {
     calendarEmptyBody:
       'Турниры, регламенты и результаты появятся здесь. Раздел уже готов к публикации.',
     newsTitle: 'Новости',
-    newsDesc: 'Лента анонсов и отчётов. Сейчас — черновики структуры сайта.',
+    newsDesc: 'Публичные посты с facebook.com/mbf.md.',
     newsLink: 'Все новости',
     memberTitle: 'Как стать членом',
-    memberDesc: 'Три шага до официальной регистрации. Детали процедур уточнит федерация.',
+    memberDesc: 'Три шага до официальной регистрации.',
     stepLabel: 'Шаг',
-    clubsLink: 'Смотреть клубы →',
+    clubsLink: 'Смотреть клубы',
   },
   about: {
     kicker: 'О федерации',
     title: 'Кто мы',
-    lede: 'Федерация бадминтона Молдовы — национальная организация, развивающая бадминтон в Республике Молдова.',
+    lede: 'Moldavian Badminton Federation — национальная организация, развивающая бадминтон в Республике Молдова.',
     notice: 'Формулировки этой страницы — рабочий макет.',
     p1: 'Мы объединяем клубы и спортсменов, проводим национальные соревнования и представляем Молдову в международных структурах.',
     activitiesTitle: 'Чем занимаемся',
@@ -528,42 +467,14 @@ const ru: Messages = {
     leadershipBody:
       'Имена и должности официальных лиц появятся после подтверждения федерацией. На сайте состав руководства не публикуем без письменного ОК.',
     docsTitle: 'Документы',
-    docsBodyBefore: 'Устав, положения и антидопинговые материалы — в отдельном разделе.',
+    docsBodyBefore: 'Официальные акты — в разделе «Официальные документы».',
     docsLink: 'Перейти к документам',
   },
   documents: {
-    kicker: 'О федерации',
-    title: 'Документы',
-    lede: 'Официальные материалы для клубов, тренеров и спортсменов. Файлы появятся после публикации федерацией.',
-    subnavLabel: 'Раздел о федерации',
-    notice:
-      'PDF и DOC не размещаются, пока федерация не предоставит актуальные версии. Ниже — структура раздела.',
-    items: [
-      {
-        id: 'statute',
-        title: 'Устав',
-        description: 'Учредительный документ федерации.',
-        status: 'PDF появится после публикации федерацией',
-      },
-      {
-        id: 'regulations',
-        title: 'Положения о соревнованиях',
-        description: 'Правила организации национальных турниров.',
-        status: 'PDF появится после публикации федерацией',
-      },
-      {
-        id: 'antidoping',
-        title: 'Антидопинг',
-        description: 'Правила и ссылки на международные стандарты.',
-        status: 'PDF появится после публикации федерацией',
-      },
-      {
-        id: 'forms',
-        title: 'Типовые формы',
-        description: 'Заявки, трансферы и сопутствующие бланки.',
-        status: 'PDF / DOC появятся позже',
-      },
-    ],
+    kicker: 'Федерация',
+    title: 'Официальные документы',
+    lede: 'Акты из реестра legis.md и другие публичные документы федерации.',
+    open: 'Открыть',
   },
   competitions: {
     kicker: 'Соревнования',
@@ -586,10 +497,15 @@ const ru: Messages = {
     colPlace: 'Место',
     colRules: 'Регламент',
     colResults: 'Результаты',
+    register: 'Регистрация',
+    contacts: 'Контакт',
+    back: '← Календарь',
     rulesNotice: 'Файлы появятся вместе с официальным календарём сезона.',
     rulesEmptyTitle: 'Регламенты ещё не опубликованы',
     rulesEmptyBody:
       'Здесь будут PDF положений по каждому турниру и общие правила организации соревнований.',
+    generalRules: 'Общие регламенты',
+    tournamentRules: 'Регламенты турниров',
     resultsNotice: 'Результаты публикуются только после официального подтверждения.',
     resultsEmptyTitle: 'Результатов пока нет',
     resultsEmptyBody:
@@ -598,54 +514,17 @@ const ru: Messages = {
   news: {
     kicker: 'Новости',
     listTitle: 'Лента',
-    listLede: 'Анонсы, отчёты и официальные сообщения федерации.',
+    listLede: 'Публичные посты со страницы Facebook федерации, в оформлении сайта.',
     notice:
-      'Материалы ниже — черновики структуры ленты. Факты о турнирах и спортсменах не выдуманы.',
+      'Пока нет нового канала, архив заполняется с facebook.com/mbf.md. Автоимпорт недоступен без прав администратора.',
     back: '← Все новости',
-    items: [
-      {
-        slug: 'zapusk-oficialnogo-sajta',
-        title: 'Готовим официальный сайт федерации',
-        date: '2026-11-26',
-        dateLabel: '26 ноября 2026',
-        excerpt:
-          'Структура разделов: календарь, клубы, документы и новости. Материалы будут обновляться по мере поступления от федерации.',
-        body: [
-          'Этот материал — черновик структуры новостной ленты. Он показывает, как будут выглядеть анонсы и отчёты на сайте.',
-          'Федерация бадминтона Молдовы собирает официальный календарь, список клубов и контактные данные. До подтверждения на сайте не публикуются выдуманные события и имена.',
-          'Следите за разделами «Соревнования», «Клубы» и «Контакты» — они заполнятся первыми.',
-        ],
-        draftStructure: true,
-      },
-      {
-        slug: 'kalendar-sezona',
-        title: 'Календарь сезона: раздел готов к наполнению',
-        date: '2026-11-26',
-        dateLabel: '26 ноября 2026',
-        excerpt:
-          'На странице соревнований — таблица с колонками регламента и результатов. Даты турниров появятся после утверждения.',
-        body: [
-          'Раздел «Соревнования» построен по жизненному циклу турнира: название, даты, место, регламент и результаты.',
-          'Пока список пуст — это ожидаемое состояние до получения официального календаря от федерации.',
-          'Международный календарь Badminton Europe можно будет добавить ссылкой, когда федерация подтвердит приоритеты сезона.',
-        ],
-        draftStructure: true,
-      },
-      {
-        slug: 'dokumenty-i-prozrachnost',
-        title: 'Документы и прозрачность',
-        date: '2026-11-26',
-        dateLabel: '26 ноября 2026',
-        excerpt:
-          'Устав, положения и антидопинговые материалы получат отдельный раздел со статусом публикации PDF.',
-        body: [
-          'Раздел «Документы» подготовлен под устав, положения о соревнованиях и антидопинговые правила.',
-          'Файлы PDF не размещаются, пока федерация не предоставит актуальные версии.',
-          'Цель — сделать сайт полезным для клубов, тренеров и родителей без канцелярской путаницы.',
-        ],
-        draftStructure: true,
-      },
-    ],
+    source: 'Facebook',
+    emptyTitle: 'Архив пока пуст',
+    emptyBody:
+      'Откройте страницу Facebook и пришлите текст или скриншоты постов. Опубликуем их здесь со ссылкой на оригинал.',
+    openFacebook: 'Открыть страницу Facebook',
+    onFacebook: 'Смотреть в Facebook',
+    sourceLink: 'Источник',
   },
   clubs: {
     kicker: 'Клубы',
@@ -663,19 +542,24 @@ const ru: Messages = {
     emptyTitle: 'Состав не опубликован',
     emptyBody:
       'Имена спортсменов и тренеров на сайте пока не указываем. Раздел зарезервирован под возрастные группы и критерии отбора.',
+    rank: 'Разряд',
+    coach: 'Тренер',
+    club: 'Клуб',
+    categories: {
+      u13: 'U13',
+      u15: 'U15',
+      u17: 'U17',
+      senior: 'Senior',
+    },
   },
   contact: {
     kicker: 'Контакты',
     title: 'Связаться с федерацией',
-    lede: 'Официальные email, телефон и адрес появятся после подтверждения. Форма обратной связи — когда будет готов бэкенд.',
-    email: 'Email',
+    lede: 'Контактное лицо федерации.',
+    name: 'Имя',
     phone: 'Телефон',
-    address: 'Адрес',
+    email: 'Почта',
     social: 'Соцсети',
-    phoneValue: 'телефон — уточняется',
-    addressValue: 'адрес в Кишинёве — уточняется',
-    socialValue: 'Соцсети — ссылки появятся позже',
-    formNote: 'Контактная форма будет добавлена после появления рабочего канала обработки заявок.',
   },
   membershipSteps: [
     {

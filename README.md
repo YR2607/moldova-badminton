@@ -1,13 +1,13 @@
-# Federația de Badminton din Republica Moldova
+# Moldavian Badminton Federation
 
-Site oficial (structura fazei 2): temă deschisă instituțională.
+Site oficial: temă deschisă instituțională. Limba implicită — română, comutator RU în header.
 
 ## Stack
 
 - Vite + React + TypeScript + React Router
-- Design tokens in CSS variables (`src/index.css`) — light paper / court blue / red CTA
-- i18n: **Romanian (ro) default**, Russian (ru) via header switch (`src/i18n/`)
-- Content strings: `src/i18n/messages.ts`; empty lists: `src/data/content.ts`
+- Design tokens in CSS variables (`src/index.css`)
+- i18n: `src/i18n/messages.ts` (RO default)
+- Conținut dinamic: `data/site.json` (editat din admin)
 
 ## Pages
 
@@ -15,28 +15,43 @@ Site oficial (structura fazei 2): temă deschisă instituțională.
 |---|---|
 | `/` | Acasă (hero, calendar, știri, membru) |
 | `/about` | Despre federație |
-| `/about/documents` | Documente |
+| `/documents` | Documente oficiale |
 | `/competitions` | Calendar |
 | `/competitions/rules` | Regulamente |
 | `/competitions/results` | Rezultate |
 | `/news` | Știri |
-| `/news/:slug` | Articol |
+| `/news/:id` | Articol |
 | `/clubs` | Cluburi |
 | `/team` | Lot național |
 | `/contact` | Contact |
+| `/admin` | Admin (parolă) |
 
 ## Develop
 
 ```bash
 npm install
+cp .env.example .env   # setează ADMIN_PASSWORD
 npm run dev
 ```
 
-Open http://127.0.0.1:5173
+Open http://127.0.0.1:5173  
+Admin: http://127.0.0.1:5173/admin
+
+Adminul scrie în `data/site.json` și funcționează doar cu `npm run dev`.
+
+## Ce se editează în admin
+
+- Contact (nume, telefon) + URL Facebook
+- Documente oficiale (RO/RU)
+- Știri
+- Cluburi
+- Calendar (inclusiv linkuri regulament / rezultate)
+- Lot național
+
+Textele de interfață, «Despre federație» și pașii de membru rămân în i18n.
 
 ## Notes
 
-- No invented officials, phones, or events — empty states and structural drafts only
-- Language choice persisted in `localStorage` (`mbf-locale`)
-- Do not call Cursor `publish-app` unless asked
-- Audit / kickoff: project store `docs/federation-site-audit.md`
+- Nu inventăm oficiali, telefoane sau turnee — listele goale așteaptă date reale
+- Limba se păstrează în `localStorage` (`mbf-locale`)
+- Nu apela Cursor `publish-app` fără cerere
