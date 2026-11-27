@@ -1,0 +1,8 @@
+node_modules
+dist
+.git
+.cursor
+.agents
+.env
+*.md
+.DS_Store

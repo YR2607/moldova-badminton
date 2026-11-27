@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { adminHeaders } from './auth'
 
 type Props = {
   label: string
@@ -7,7 +8,7 @@ type Props = {
   onChange: (url: string) => void
 }
 
-export default function MediaField({ label, value, password, onChange }: Props) {
+export default function MediaField({ label, value, onChange }: Props) {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
 
@@ -20,7 +21,7 @@ export default function MediaField({ label, value, password, onChange }: Props) 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-admin-password': password,
+          ...adminHeaders(),
         },
         body: JSON.stringify({ type: file.type, data }),
       })

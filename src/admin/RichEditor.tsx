@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { adminHeaders, hasAdminSession } from './auth'
 
 type Props = {
   value: string
@@ -7,7 +8,7 @@ type Props = {
   password?: string
 }
 
-export default function RichEditor({ value, onChange, editorKey, password }: Props) {
+export default function RichEditor({ value, onChange, editorKey }: Props) {
   const ref = useRef<HTMLDivElement>(null)
   const fileRef = useRef<HTMLInputElement>(null)
 
@@ -24,14 +25,14 @@ export default function RichEditor({ value, onChange, editorKey, password }: Pro
   }
 
   async function onFile(file: File) {
-    if (!password) return
+    if (!hasAdminSession()) return
     const data = await fileToBase64(file)
     const response = await fetch('/api/upload', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-admin-password': password,
-      },
+        headers: {
+          'Content-Type': 'application/json',
+          ...adminHeaders(),
+        },
       body: JSON.stringify({ type: file.type, data }),
     })
     const json = (await response.json()) as { url?: string }

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
 import fallback from '../../data/site.json'
+import { adminHeaders } from '../admin/auth'
 import { normalizeSite, type SiteData } from '../data/site'
 import { SiteContext } from './SiteContext'
 
@@ -31,6 +32,7 @@ export function SiteProvider({ children }: { children: ReactNode }) {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        ...adminHeaders(),
         'x-admin-password': password,
       },
       body: JSON.stringify(normalized),

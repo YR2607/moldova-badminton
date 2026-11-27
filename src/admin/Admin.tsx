@@ -5,6 +5,7 @@ import type { SiteClub, SiteData, SiteDocument } from '../data/site'
 import { newId } from '../data/site'
 import './Admin.css'
 import AboutTab from './AboutTab'
+import { clearAdminAuth, getAdminAuth, hasAdminSession, setAdminAuth } from './auth'
 import CompetitionsTab from './CompetitionsTab'
 import ContactTab from './ContactTab'
 import NewsTab from './NewsTab'
@@ -22,16 +23,15 @@ const TABS = [
 
 type TabId = (typeof TABS)[number]['id']
 
-const SESSION_KEY = 'mbf-admin-password'
-
 export default function Admin() {
   const { site, save } = useSite()
-  const [password, setPassword] = useState(() => sessionStorage.getItem(SESSION_KEY) ?? '')
-  const [authed, setAuthed] = useState(() => Boolean(sessionStorage.getItem(SESSION_KEY)))
+  const [password, setPassword] = useState(() => getAdminAuth().password)
+  const [authed, setAuthed] = useState(() => hasAdminSession())
   const [tab, setTab] = useState<TabId>('contact')
   const [error, setError] = useState('')
   const [ok, setOk] = useState('')
-  const [login, setLogin] = useState('')
+  const [user, setUser] = useState('')
+  const [loginPassword, setLoginPassword] = useState('')
 
   async function handleLogin(event: FormEvent) {
     event.preventDefault()
@@ -39,14 +39,14 @@ export default function Admin() {
     const response = await fetch('/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: login }),
+      body: JSON.stringify({ user, password: loginPassword }),
     })
     if (!response.ok) {
-      setError('Неверный пароль')
+      setError('Неверный логин или пароль')
       return
     }
-    sessionStorage.setItem(SESSION_KEY, login)
-    setPassword(login)
+    setAdminAuth(user, loginPassword)
+    setPassword(loginPassword)
     setAuthed(true)
   }
 
@@ -62,9 +62,11 @@ export default function Admin() {
   }
 
   function logout() {
-    sessionStorage.removeItem(SESSION_KEY)
+    clearAdminAuth()
     setAuthed(false)
     setPassword('')
+    setUser('')
+    setLoginPassword('')
   }
 
   if (!authed) {
@@ -74,11 +76,20 @@ export default function Admin() {
           <img className="admin-login-logo" src="/federation-logo.png" alt="" width={160} height={160} />
           <h1>Админка MBF</h1>
           <label>
+            Логин
+            <input
+              value={user}
+              onChange={(event) => setUser(event.target.value)}
+              autoComplete="username"
+              autoFocus
+            />
+          </label>
+          <label>
             Пароль
             <input
               type="password"
-              value={login}
-              onChange={(event) => setLogin(event.target.value)}
+              value={loginPassword}
+              onChange={(event) => setLoginPassword(event.target.value)}
               autoComplete="current-password"
             />
           </label>
