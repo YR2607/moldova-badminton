@@ -53,9 +53,10 @@ Nu merge pe Vercel/Netlify: acolo discul e temporar și știrile dispar. Trebuie
 
 1. Cont pe [Render](https://render.com) sau [Railway](https://railway.app)
 2. Conectează repo-ul GitHub `YR2607/moldova-badminton`
-3. Variabile: `ADMIN_USER`, `ADMIN_PASSWORD` (aceleași ca în `.env`), `DATA_DIR=/data`
-4. Disc persistent montat la `/data` (în Render e deja în `render.yaml`)
-5. După deploy: `https://…/admin`
+3. Variabile: `ADMIN_USER=admin`, `ADMIN_PASSWORD=…`
+4. **Nu seta `DATA_DIR=/data`** până nu ai Disc pe Render. Fără disc datele stau în `./data` (supraviețuiesc restartului, dar se pot pierde la redeploy).
+5. Pentru disc permanent: Disk → Mount path `/data` → env `DATA_DIR=/data`
+6. După deploy: `https://…/admin`
 
 Domeniu propriu se leagă din dashboard-ul hostului + DNS.
 

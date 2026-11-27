@@ -1,16 +1,16 @@
 services:
   - type: web
     name: moldova-badminton
-    runtime: docker
+    runtime: node
+    plan: starter
+    buildCommand: npm install && npm run build
+    startCommand: npm start
     healthCheckPath: /health
-    disk:
-      name: mbf-data
-      mountPath: /data
-      sizeGB: 1
     envVars:
-      - key: DATA_DIR
-        value: /data
       - key: ADMIN_USER
         sync: false
       - key: ADMIN_PASSWORD
         sync: false
+      # Optional: add a Render Disk mounted at /data, then set DATA_DIR=/data
+      # - key: DATA_DIR
+      #   value: /data

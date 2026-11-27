@@ -11,8 +11,35 @@ const ALLOWED_TYPES = {
   'application/pdf': 'pdf',
 }
 
+let resolvedRoot = ''
+
+function canUseDir(dir) {
+  try {
+    fs.mkdirSync(dir, { recursive: true })
+    fs.accessSync(dir, fs.constants.W_OK)
+    return true
+  } catch {
+    return false
+  }
+}
+
+function resolveDataRoot() {
+  if (resolvedRoot) return resolvedRoot
+  const preferred = path.resolve(process.env.DATA_DIR || path.join(process.cwd(), 'data'))
+  const fallback = path.resolve(process.cwd(), 'data')
+  if (canUseDir(preferred)) {
+    resolvedRoot = preferred
+  } else if (canUseDir(fallback)) {
+    console.warn(`DATA_DIR ${preferred} is not writable, using ${fallback}`)
+    resolvedRoot = fallback
+  } else {
+    throw new Error(`No writable data directory (tried ${preferred} and ${fallback})`)
+  }
+  return resolvedRoot
+}
+
 export function dataPaths() {
-  const root = path.resolve(process.env.DATA_DIR || path.join(process.cwd(), 'data'))
+  const root = resolveDataRoot()
   const seedFile = path.resolve(process.env.SEED_FILE || path.join(process.cwd(), 'data/site.json'))
   return {
     root,
@@ -23,13 +50,12 @@ export function dataPaths() {
 }
 
 export function ensureData() {
-  const { root, seedFile, siteFile, uploadDir } = dataPaths()
-  fs.mkdirSync(root, { recursive: true })
+  const { seedFile, siteFile, uploadDir } = dataPaths()
   fs.mkdirSync(uploadDir, { recursive: true })
   if (!fs.existsSync(siteFile)) {
     if (fs.existsSync(seedFile) && path.resolve(seedFile) !== path.resolve(siteFile)) {
       fs.copyFileSync(seedFile, siteFile)
-    } else if (!fs.existsSync(siteFile)) {
+    } else {
       fs.writeFileSync(siteFile, '{}\n')
     }
   }
